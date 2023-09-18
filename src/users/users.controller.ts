@@ -15,6 +15,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get('hi')
+  hi() {
+    return process.env;
+  }
+
+  @Post('signin')
+  async signin(@Body() signinDTO: Record<string, any>) {
+    return this.usersService.signinDemo(signinDTO.username, signinDTO.password);
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

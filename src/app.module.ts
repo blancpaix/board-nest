@@ -24,7 +24,7 @@ import { DataSource } from 'typeorm';
       database: process.env.DATABASE_NAME,
       entities: [],
       synchronize: true,
-      autoLoadEntities: true,
+      autoLoadEntities: true, // 엔티티 설정이 완료되면 제거
     }),
     UsersModule,
     BoardsModule,
