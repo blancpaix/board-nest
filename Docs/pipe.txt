@@ -1,0 +1,38 @@
+validation 에서 사용하면 된다네??
+잘못된 값 들어오면 거러주는걸로
+guid 만들어서 줄수도 잇고 뭐 커스텀도 가능하다고 하고
+regex 같은걸로 필터링 좀 더 세게 걸어줘도 되긴하는데 리소스 괜찮겟찌??
+
+인터셉터 => 파이프 => 컨트롤러
+
+기존에 미들웨어랑 다 같은거 아닌가??;;;
+aOP 관점에서 인터셉터를 소개하는데 
+파이프나 미들웨어는 모든 곳에 적용되는 그런 느낌이었찌???
+
+req
+global middleware
+module middleware 
+
+global guards
+controller guards
+route guards
+전
+global interceptor
+controller interceptor
+router interceptor
+
+global pipe
+controller pipe
+route pipe
+route parameter pipe
+
+controller
+serivce
+후
+route interceptor
+controller interceptor
+glboal interceptor
+Excpetion filters
+RES
+
+이게 뭔 낭비지??..;;

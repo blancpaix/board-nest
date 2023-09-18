@@ -1,0 +1,8 @@
+nodemon은 npm run start:dev 로 대체
+
+
+env  dotenv 이것도 대체
+$ npm i --save @nestjs/config
+
+
+한글 자모 분리현상은 이모지 창 띄웠다가 끄면 사라짐... 윈도우 + .

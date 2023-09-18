@@ -1,0 +1,23 @@
+DI 하는곳에는 @Injectable() 어노테이션 사용
+
+컨트롤러
+@Controller("name")
+name 은 라우터 이름인듯?
+  @Get()
+  findAll() : string {} 
+    이렇게 해서 router.get() 처럼 안씀
+
+... 어노테이션이 안빠지는곳이 없어..
+@Res
+@Req
+@Param , Body ,Query, Headers Ip, HostParam.
+@HttpCode
+  상태 코드는 200 고정인데, post 는 201로 날려줌
+@Header("options", "data") 이렇게 하면 헤더에 심어줄 수 있고..
+
+@Redirect("url", HTTP_CODE) 이렇게 주네?
+뭐여 가능한게 없어..
+
+
+
+

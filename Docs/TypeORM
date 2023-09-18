@@ -1,0 +1,38 @@
+컬럼에 제약을 엔티티에서 정의하는게 아니네..??
+대략적으로 길이정도만 설정을 해주고 세부적인것은 코드로 직접 구현하던가 해야 할듯??
+
+저기 저 가드에서 막아주던가 그렇게 하는게 맞는것 같음
+물론 nullable 이런것 같이 기본적으로 RDBMS 에서 지원하는것들만 지원한독  생각하면 됨
+
+
+인덱스 컬럼 지정이 굉장히 간편하네??
+
+paranoid 는 각각 개별로 어노테이션잉 ㅣㅅ고...
+삭제할때 메서드가 따로 있네
+repo.softDelete =  soft delete
+repo.delete = hard delete
+사실 그냥 만들어도 될 정도인데??
+
+
+!! 인덱스 컬럼 지정할때 유니크 옵션이 자동으로 들어감
+물론 인덱스에 유니크가 강제되는거는 아닌데 설정해줄 필요가 있음
+컬럼 설정에서는 유니크 옵션 삭제해야 에러 안뜸
+유니크 옵션 중복으로 아래와 같은 에러 발생
+QueryFailedError: Duplicate key name 'IDX_e12875dfb3b1d92d7d7c5377e2'
+    at Query.onResult (C:\Users\Smart\TS\nest-board\src\driver\mysql\MysqlQueryRunner.ts:222:33)
+    at Query.execute (C:\Users\Smart\TS\nest-board\node_modules\mysql2\lib\commands\command.js:36:14)
+    at PoolConnection.handlePacket (C:\Users\Smart\TS\nest-board\node_modules\mysql2\lib\connection.js:478:34)
+    at PacketParser.onPacket (C:\Users\Smart\TS\nest-board\node_modules\mysql2\lib\connection.js:97:12)
+    at PacketParser.executeStart (C:\Users\Smart\TS\nest-board\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (C:\Users\Smart\TS\nest-board\node_modules\mysql2\lib\connection.js:104:25)
+    at Socket.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Socket.Readable.push (node:internal/streams/readable:234:10)
+
+
+ManyToOne 관계에서
+컬럼 네임 뒤에 알아서 Idx 가 붙어버리네??
+지정한 이름 + FK 이렇게 설정되어버리느듯??
+user + Idx 이렇게 하면 잘 들어감.
+  
