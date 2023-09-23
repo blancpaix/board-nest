@@ -6,3 +6,7 @@ $ npm i --save @nestjs/config
 
 
 한글 자모 분리현상은 이모지 창 띄웠다가 끄면 사라짐... 윈도우 + .
+
+
+뭐여?? nest 프로젝트 생성하면 .env 파일을 git ignore에 자동으로 추가 안해주네??
+!! .env 파일 gitinore에 추가 필수

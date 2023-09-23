@@ -3,6 +3,7 @@
 
 저기 저 가드에서 막아주던가 그렇게 하는게 맞는것 같음
 물론 nullable 이런것 같이 기본적으로 RDBMS 에서 지원하는것들만 지원한독  생각하면 됨
+아니네 min 도 잇네 물론 어노테이션으로
 
 
 인덱스 컬럼 지정이 굉장히 간편하네??
@@ -36,3 +37,14 @@ ManyToOne 관계에서
 지정한 이름 + FK 이렇게 설정되어버리느듯??
 user + Idx 이렇게 하면 잘 들어감.
   
+
+
+제약사항 어노테이션
+@Length(min, max)
+@Contains("hello")
+@IsInt()
+@Min(2)
+@Max(50)
+@IsEmail
+@IsFQON
+@IsDate ...

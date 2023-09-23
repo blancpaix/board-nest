@@ -1,12 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { SignupUserDto } from './dto/signupUser.dto';
+import { SigninUserDto } from './dto/signinUser.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
-export type SampleUser = any;
+const hashSaltRound = 11;
+
+const jwtOptions = {
+  expiresIn: '1h',
+  issuer: 'http://localhost:3000',
+};
 
 @Injectable()
 export class UsersService {
@@ -16,46 +23,57 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  // 이것도 사실은 리턴할걸로 dto 만들어서 써야겠지??
+  async findUser(email: string): Promise<User | any> {
+    const user = await this.usersRepository.find({
+      select: {
+        password: true,
+      },
+      where: {
+        email,
+      },
+    });
 
-  async findOneDemo(username: string): Promise<SampleUser | undefined> {
-    return this.users.find((user) => user.username === username);
+    return user;
   }
 
-  async signinDemo(username: string, pass: string): Promise<any> {
-    const user = await this.findOneDemo(username);
-    console.log('USers??', user);
-    if (user?.password != pass) {
-      throw new Error('password not matching!');
+  // 이것도 토큰하나 전송하는데 DTO를 만드는게 좋나???
+  async signin(signinUserDto: SigninUserDto) {
+    const user = await this.findUser(signinUserDto.email);
+    if (user.length == 0)
+      throw new HttpException('그런회원 없음', HttpStatus.NOT_ACCEPTABLE);
+
+    const compareResult = await bcrypt.compare(
+      signinUserDto.password,
+      user[0].password,
+    );
+    if (compareResult) {
+      const accessToken = await this.jwtService.signAsync(
+        {
+          user: user.email,
+        },
+        jwtOptions,
+      );
+
+      return accessToken;
     }
-
-    const payload = { sub: user.userId, username: user.username };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    throw new HttpException('비밀번호 불일치', HttpStatus.NOT_ACCEPTABLE);
   }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async signup(signupUserDto: SignupUserDto) {
+    const hashedPassword = await bcrypt.hash(
+      signupUserDto.password,
+      hashSaltRound,
+    );
+    signupUserDto.password = hashedPassword;
+    const user = this.usersRepository.create(signupUserDto);
+    this.usersRepository.save(user);
+
+    return user;
   }
 
   findAll() {
     return `This action returns all users`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

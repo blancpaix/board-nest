@@ -8,36 +8,23 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignupUserDto } from './dto/signupUser.dto';
+import { SigninUserDto } from './dto/signinUser.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('hi')
-  hi() {
-    return process.env;
+  @Post()
+  signup(@Body() signupUserDto: SignupUserDto) {
+    return this.usersService.signup(signupUserDto);
   }
 
   @Post('signin')
-  async signin(@Body() signinDTO: Record<string, any>) {
-    return this.usersService.signinDemo(signinDTO.username, signinDTO.password);
-  }
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async signin(@Body() signinDTO: SigninUserDto) {
+    return this.usersService.signin(signinDTO);
   }
 
   @Patch(':id')

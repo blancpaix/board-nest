@@ -15,11 +15,6 @@ import { User } from './entities/user.entity';
         signOptions: { expiresIn: '15m' },
       }),
     }),
-    // JwtModule.register({
-    //   global: true,
-    //   secret: process.env.TOKEN_SECRET,
-    //   signOptions: { expiresIn: '15m' },
-    // }),
   ],
   controllers: [UsersController],
   providers: [UsersService],
